@@ -1,6 +1,8 @@
 # FastHub
 FastHub is a collection of utilities for [Hub](https://github.com/activeloopai/hub).
 
+Note: This is a proof of concept only. It only works for images with `dtype=uint8`.
+
 ## Quickstart
 ### Moving bytes back and forth on Hub
 ```python
