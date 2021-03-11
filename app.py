@@ -1,20 +1,16 @@
 from cola import main as cola_main
 from dota import main as dota_main
 
-import streamlit as st
-from hub import transform
-from hub.schema import Primitive, Text
 
+from hub import transform
 import uuid
-import zipfile
-from tqdm import tqdm
-import requests
-import pandas as pd
-import numpy as np
+
 
 st.title("FastHub")
 
-selected_datasets = st.multiselect("Select a dataset ", ['CoLA', 'Dota'])
+datasets = ['CoLA', 'Dota', '1mdb', 'mnist']
+
+selected_datasets = st.multiselect("Select a dataset ", datasets)
 selected_tag = st.multiselect("Tag: ", ['mynameisvinn', 'activeloop'])
 
 
@@ -23,17 +19,20 @@ res = None
 
 if selected_datasets:
     dataset = selected_datasets[0]
+    handle = selected_tag[0]
     random = uuid.uuid1()
-    tag = f"mynameisvinn/{dataset}-{random}"
+    tag = f"{handle}/{dataset}-{random}"
 
     if selected_datasets[0] == 'CoLA':
-        url = 'https://nyu-mll.github.io/CoLA/cola_public_1.1.zip'
-        schema = {
-            'sentence': Text(shape=(None, ), max_shape=(500, )),
-            'labels': Primitive(dtype="int64")
-        }
 
-        res = cola_main(url, tag, schema)
+        # url = 'https://nyu-mll.github.io/CoLA/cola_public_1.1.zip'
+        # schema = {
+            # 'sentence': Text(shape=(None, ), max_shape=(500, )),
+            # 'labels': Primitive(dtype="int64")
+        # }
+
+        # res = cola_main(url, tag, schema)
+        pass
     
     if selected_datasets[0] == 'Dota':
         url = 'https://drive.google.com/uc?id=1fwiTNqRRen09E-O9VSpcMV2e6_d4GGVK'
@@ -43,9 +42,12 @@ if selected_datasets:
         }
         res = dota_main(url)
 
+    else:
+        pass
+
 
 if selected_datasets:
-    st.write("Code snippet! ")
+    st.write("Code snippet ")
 
     body = f"""
         import hub            
@@ -60,6 +62,6 @@ if selected_datasets:
     st.write("Dockerfile")
     body = f"""
         pip install hub            
-        CMD = ['python', 'fetch.py', '-user mynameisvinn']
+        CMD = ['python', 'fetch.py', '-user mynameisvinn']  # placeholder
         """.format(tag)
     st.code(body, language='bash')
