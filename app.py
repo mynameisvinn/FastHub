@@ -8,7 +8,7 @@ import streamlit as st
 
 st.title("FastHub")
 
-datasets = ['CoLA', 'Dota', '1mdb', 'mnist']
+datasets = ['CoLA', 'Dota', '1mdb', 'mnist', 'cifar-10']
 
 selected_datasets = st.multiselect("Select a dataset ", datasets)
 selected_tag = st.multiselect("Tag: ", ['mynameisvinn', 'activeloop'])
@@ -43,8 +43,7 @@ if selected_datasets and selected_tag:
     with st.spinner('Pushing'):
         time.sleep(2)
 
-    st.write("Code snippet ")
-
+    st.write("Code snippet")
     body = f"""
         import hub            
         
@@ -55,14 +54,7 @@ if selected_datasets and selected_tag:
     
     st.code(body, language='python')
 
-    st.write("Dockerfile")
-    body = f"""
-        pip install hub            
-        CMD = ['python', 'fetch.py', '-user {handle}']  # placeholder
-        """.format(handle)
-    st.code(body, language='bash')
-
-    st.write("Easy Viz")
+    st.write("Share me!")
     body = f"""
     https://app.activeloop.ai/dataset/{handle}/{dataset}-{random}
     """.format(handle, dataset, random)
