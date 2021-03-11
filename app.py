@@ -1,7 +1,7 @@
 from cola import main as cola_main
 from dota import main as dota_main
 
-
+import time
 from hub import transform
 import uuid
 
@@ -46,15 +46,20 @@ if selected_datasets:
         pass
 
 
-if selected_datasets:
+
+if selected_datasets and selected_tag:
+
+    with st.spinner('Pushing'):
+        time.sleep(2)
+
     st.write("Code snippet ")
 
     body = f"""
         import hub            
         
         ds = hub.load('{tag}')
-        ds['sentence'].compute()  # fetch all sentences
-        ds['labels'].compute()  # fetch all labels
+        X = ds['sentence'].compute()
+        y = ds['labels'].compute()
         """.format(tag)
     
     st.code(body, language='python')
